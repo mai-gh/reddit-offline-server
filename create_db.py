@@ -12,7 +12,7 @@ cur = con.cursor()
 
 
 def getZstFileJsonStream(path: str, chunk_size=1024*1024*10) -> Iterator[tuple[int, dict]]:
-  dctx = zstandard.ZstdDecompressor(max_window_size=2147483648)
+  dctx = zstandard.ZstdDecompressor(max_window_size=2**31)
   currentString = ""
   def yieldLinesJson():
     nonlocal currentString
@@ -37,8 +37,7 @@ def getZstFileJsonStream(path: str, chunk_size=1024*1024*10) -> Iterator[tuple[i
         break
       if not chunk:
         break
-      currentString += chunk.decode("utf-8", "replace")
-      
+      currentString += chunk.decode("utf-8", "replace")      
       for line in yieldLinesJson():
         yield line
   for line in yieldLinesJson():

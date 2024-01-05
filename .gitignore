@@ -1,5 +1,7 @@
 old
 *.zst
+*.zst_blocks
+*.ndjson
 *.json
 deno.lock
 *.db
